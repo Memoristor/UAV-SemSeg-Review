@@ -33,28 +33,51 @@ pip install imgaug matplotlib tqdm prettytable tensorboardX
 pip install git+https://github.com/lucasb-eyer/pydensecrf.git
 ```
 
-## Usage
+## How to use
 
-#### Train/Valid Phase
+### Step1: Prepare the pre-trained model
 
-* It is recommended to start training or testing by scripts. Let's take the training phase as an example,
+The pre-trained models required for HRNet can be found in the [HRNet-Semantic-Segmentation
+](https://github.com/HRNet/HRNet-Semantic-Segmentation) repository. The downloaded pre-trained models should be placed in the `models/pretrained` folder in the following order.
 
-  * Set the hyper-parameters for training phase, such as learning rate and weight decay
-  * Specify the models you need to train, e.g.
-    ```shell
-    python ../main.py \
-      ...
-      --model "SegNetVGG16" "FCN8s" "FCN16s" "PSPNetVGG16" "PSPNetResNet50" \
-      ...
-    ```
+```
+models/
+├── __init__.py
+├── bisenet_v1.py
+├── ...
+├── pretrained
+│   ├── hrnetv2_w48_imagenet_pretrained.pth
+│   ├── R50+ViT-B_16.npz
+│   ├── R50+ViT-L_32.npz
+│   └── ViT-B_16.npz
+├── pspnet_resnet.py
+├── ...
+```
+
+### Step2: Train/Valid Phase
+
+It is recommended to start training or testing by scripts. Let's take the training phase as an example,
+
+* Set the hyper-parameters for training phase, such as learning rate and weight decay
+
+* Specify the models you need to train, e.g.
+  
+  ```shell
+  python ../main.py \
+    ...
+    --model "SegNetVGG16" "FCN8s" "FCN16s" "PSPNetVGG16" "PSPNetResNet50" \
+    ...
+  ```
+
 * Specify the running GPU and run the script in terminal 
+  
   ```shell
   ./uavid_train_valid.sh 0,1
   ```
 
-#### Test Phase
+### Step3: Test Phase
 
-* It is also allowed to set whether to enable `DenseCRF` or `ConvCRF` before running the tests.
+It is also allowed to set whether to enable `DenseCRF` or `ConvCRF` before running the tests.
 
   * Specify whether to enable `DenseCRF` (--densecrf) or `ConvCRF` (--convcrf), e.g.
 
@@ -65,15 +88,14 @@ pip install git+https://github.com/lucasb-eyer/pydensecrf.git
       --densecrf
       ...
     ```
-* Specify the running GPU and run the script in terminal 
 
-  ```
-  ./uavid_test_only.sh 0
-  ```
+  * Specify the running GPU and run the script in terminal 
+
+    ```
+    ./uavid_test_only.sh 0
+    ```
 
 ## Citation
-
-If you find our code and paper helpful, please cite:
 
   ```
   @article{cheng_methods_2024,
